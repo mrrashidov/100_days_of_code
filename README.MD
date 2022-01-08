@@ -1,4 +1,4 @@
-# Hello world
+# 100 days of code
 
 ### Run local php server
 ```
