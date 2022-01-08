@@ -1,18 +1,21 @@
-const { graphql, buildSchema } = require("graphql");
+const {graphql, buildSchema} = require("graphql");
 const schema = buildSchema(`
+  type Product {
+    id: Int!
+    name:String
+  }
   type Query {
     hello: String!
+    product(id:Int): Product! # Object | null
   }
 `);
 
-// The root of our graph gives us access to resolvers for each type and field
 const resolversRoot = {
-  hello: () => ('Hello World')
-};
-// Run a simple graphql query '{ hello }' and then print the response
-graphql(
-  schema,`{ hello }`,
-  resolversRoot
-).then((response) => {
-  console.log(response);
-});
+        hello: () => ('Hello World'),
+        product: ({id}) => ({
+            id: id,
+            name: "product1",
+        })
+    }
+;
+graphql(schema, `{ product(id:1) { id name } }`, resolversRoot).then(response => console.log(response));
