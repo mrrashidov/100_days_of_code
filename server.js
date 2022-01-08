@@ -1,6 +1,10 @@
 const {graphql, buildSchema} = require("graphql");
 const schema = buildSchema(`
   
+  input CreateProductInput {
+    name:String!
+  }
+  
   type Product {
     id: Int!
     name:String
@@ -34,6 +38,9 @@ const schema = buildSchema(`
     me: UserResponse!
     product(id:Int!): Product! # Object | null
     products(page: Int): [Product!]
+  }
+  type Mutation {
+    createProduct(input: CreateProductInput!): Product!
   }
 `);
 
@@ -72,7 +79,12 @@ const resolversRoot = {
       id: 2,
       name: "product2",
     }
-  ])
+  ]),
+  createProduct: ({input}) => {
+    return {
+      id: 11,
+      name: input.name,
     }
-;
-graphql(schema, `{ me { id user { id name { nick first last } } items { count products{ id name } } } }`, resolversRoot).then(response => console.log(response.data));
+  },
+};
+graphql(schema, `mutation{ createProduct(input:{ name: "Test"}) { id name } }`, resolversRoot).then(response => console.log(response));
