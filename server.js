@@ -5,6 +5,11 @@ const schema = buildSchema(`
     name:String!
   }
   
+  input UpdateProductInput {
+    id:ID!
+    name:String
+  }
+  
   type Product {
     id: Int!
     name:String
@@ -41,6 +46,7 @@ const schema = buildSchema(`
   }
   type Mutation {
     createProduct(input: CreateProductInput!): Product!
+    updateProduct(input: UpdateProductInput!): Product!
   }
 `);
 
@@ -80,11 +86,13 @@ const resolversRoot = {
       name: "product2",
     }
   ]),
-  createProduct: ({input}) => {
-    return {
-      id: 11,
-      name: input.name,
-    }
-  },
+  createProduct: ({input}) => ({
+    id: 11,
+    name: input.name,
+  }),
+  updateProduct: ({input}) => ({
+    id: input.id,
+    name: input.name,
+  }),
 };
-graphql(schema, `mutation{ createProduct(input:{ name: "Test"}) { id name } }`, resolversRoot).then(response => console.log(response));
+graphql(schema, `mutation{ updateProduct(input:{ id:1, name: "Test (updated)"}) { id name } }`, resolversRoot).then(response => console.log(response));
