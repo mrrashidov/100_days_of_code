@@ -1,8 +1,13 @@
 # Hello world
 
-### Run local test server
+### Run local php server
 ```
 php -S localhost:8080 server.php
+```
+### OR
+### Run local node server
+```
+yarn dev
 ```
 
 ### Try query
