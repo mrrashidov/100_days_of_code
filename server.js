@@ -6,16 +6,27 @@ const schema = buildSchema(`
   }
   type Query {
     hello: String!
-    product(id:Int): Product! # Object | null
+    product(id:Int!): Product! # Object | null
+    products(page: Int): [Product!]
   }
 `);
 
 const resolversRoot = {
-        hello: () => ('Hello World'),
-        product: ({id}) => ({
-            id: id,
-            name: "product1",
-        })
+  hello: () => ('Hello World'),
+  product: ({id}) => ({
+    id: id,
+    name: "product1",
+  }),
+  products: ({page}) => ([
+    {
+      id: 1,
+      name: "product1",
+    },
+    {
+      id: 2,
+      name: "product2",
+    }
+  ])
     }
 ;
-graphql(schema, `{ product(id:1) { id name } }`, resolversRoot).then(response => console.log(response));
+graphql(schema, `{ products { id name } }`, resolversRoot).then(response => console.log(response.data));
