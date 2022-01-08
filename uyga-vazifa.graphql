@@ -8,7 +8,7 @@ type Todo {
 type Query {
   me: User
   todo(id:ID!): Todo
-  todos(q: String page: PageItem) :[Todo]
+  todos(q: String page: PageItem) :[Todo!]
 }
 
 type Mutation {
