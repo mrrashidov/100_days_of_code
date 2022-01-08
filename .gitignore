@@ -1,4 +1,6 @@
-node_modules
+nodejs/node_modules
+nodejs/yarn.lock
+php/vendor
+php/composer.lock
 .idea
 .code
-yarn.lock
