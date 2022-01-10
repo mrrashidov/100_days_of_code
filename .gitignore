@@ -1,8 +1,9 @@
 nodejs/node_modules
 nodejs/yarn.lock
+nodejs/package-lock.json
 php/vendor
 php/composer.lock
 .idea
 .code
 package-lock.json
-/composer-lock.json
+composer-lock.json
