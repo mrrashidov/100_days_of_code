@@ -105,3 +105,75 @@ const schema = buildSchema(/* GraphQL */ `
     deleteTodo(input: DeleteTodoInput!): DeletedTodo!
   }
 `);
+
+let data = {
+  users: [
+    {
+      id: 1,
+      avatar: "ali",
+      name: {
+        firstName: "Ali",
+        lastName: "Nabiyev",
+      },
+      email: "ali@mail.ru",
+      password: "12345",
+    },
+    {
+      id: 2,
+      avatar: "zafar",
+      name: {
+        firstName: "Zafar",
+        lastName: "Saidov",
+      },
+      email: "zafar@mail.ru",
+      password: "12345",
+    },
+    {
+      id: 3,
+      avatar: "vali",
+      name: {
+        firstName: "Vali",
+        lastName: "Soliyev",
+      },
+      email: "vali@mail.ru",
+      password: "12345",
+    },
+  ],
+  todos: [
+    {
+      id: 1,
+      body: "Read the book",
+      content: "content1",
+      status: true,
+      userId: 2,
+    },
+    {
+      id: 2,
+      body: "Do homeworks",
+      content: "content2",
+      status: true,
+      userId: 1,
+    },
+    {
+      id: 3,
+      body: "Have a rest",
+      content: "content3",
+      status: true,
+      userId: 1,
+    },
+    {
+      id: 4,
+      body: "Learn English",
+      content: "content4",
+      status: true,
+      userId: 3,
+    },
+    {
+      id: 5,
+      body: "Graphql",
+      content: "content3",
+      status: true,
+      userId: 2,
+    },
+  ],
+};
