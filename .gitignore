@@ -4,5 +4,5 @@ php/vendor
 php/composer.lock
 .idea
 .code
-nodejs/package-lock.json
+package-lock.json
 /composer-lock.json
