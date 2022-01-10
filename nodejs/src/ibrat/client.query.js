@@ -82,8 +82,61 @@ const deleteTodo = `
   }
 `;
 
+const getUserById = `
+  query {
+    getUserById(id: 1){
+      fullName {
+        firstName
+        lastName
+      }
+      age
+    }
+  }
+`;
+
+const getTodoById = `
+  query {
+    todo(id: 1){
+      content {
+        title
+        description
+      }
+      user {
+        fullName {
+          firstName
+          lastName
+        }
+        age
+      }
+    }
+  }
+`;
+
+const getTodos = `
+  query {
+    todos(limit: 2){
+      content {
+        title
+        description
+      }
+      user {
+        fullName {
+          firstName
+          lastName
+        }
+        age
+      }
+    }
+  }
+`;
+
 module.exports = {
   Query: {
+    getTodoById,
+    getTodos,
+    getUserById,
+  },
+  Mutation: {
     createUser,
     updateUser,
     deleteUser,
@@ -91,5 +144,4 @@ module.exports = {
     updateTodo,
     deleteTodo,
   },
-  Mutation: {},
 };

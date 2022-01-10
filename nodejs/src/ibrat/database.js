@@ -2,14 +2,18 @@ module.exports = {
   users: [
     {
       id: 1,
-      firstName: "Ibrat",
-      lastName: "Tillaberdiyev",
+      fullName: {
+        firstName: "Ibrat",
+        lastName: "Tillaberdiyev",
+      },
       age: 20,
     },
     {
       id: 2,
-      firstName: "Murod",
-      lastName: "Islomov",
+      fullName: {
+        firstName: "Murod",
+        lastName: "Islomov",
+      },
       age: 18,
     },
   ],

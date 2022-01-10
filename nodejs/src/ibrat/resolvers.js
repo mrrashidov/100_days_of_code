@@ -13,6 +13,17 @@ const createUser = (args) => {
   return user;
 };
 
+const getUserById = (args) => {
+  console.log("kirdi");
+  const user = database.users.find((user) => args.id == user.id);
+
+  if (!user) {
+    return `This user doest not exists`;
+  }
+
+  return user;
+};
+
 const updateUser = (args) => {
   const userIndex = database.users.findIndex((user) => args.id == user.id);
 
@@ -54,6 +65,30 @@ const createTodo = (args) => {
   return todo;
 };
 
+const getTodoById = (args) => {
+  const todo = database.todos.find((todo) => args.id == todo.id);
+  const user = database.users.find((user) => todo.id == user.id);
+
+  if (!todo) {
+    return `This todo doest not exists`;
+  }
+
+  todo.user = user;
+
+  return todo;
+};
+
+const getTodos = (args) => {
+  console.log("kirdi");
+  const todos = database.todos.slice(0, args.limit).map((todo) => {
+    const user = database.users.find((user) => todo.id == user.id);
+    todo.user = user;
+    return todo;
+  });
+
+  return todos;
+};
+
 const updateTodo = (args) => {
   const todoIndex = database.todos.findIndex((todo) => args.id == todo.id);
 
@@ -89,4 +124,7 @@ module.exports = {
   createTodo,
   updateTodo,
   deleteTodo,
+  getUserById,
+  getTodoById,
+  getTodos,
 };

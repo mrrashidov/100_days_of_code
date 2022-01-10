@@ -3,8 +3,8 @@ const { buildSchema } = require("graphql");
 module.exports = buildSchema(/* GraphQL */ `
   type Query {
     todo(id: ID!): Todo
-    todos(limit: Int): [Todo!]
-    me: User
+    todos(limit: Int!): [Todo!]
+    getUserById(id: ID!): User
   }
 
   type Mutation {
@@ -26,7 +26,7 @@ module.exports = buildSchema(/* GraphQL */ `
     age: Int!
   }
 
-  input UserFullName {
+  type UserFullName {
     firstName: String!
     lastName: String!
   }
@@ -37,7 +37,7 @@ module.exports = buildSchema(/* GraphQL */ `
     user: User
   }
 
-  input TodoContent {
+  type TodoContent {
     title: String!
     description: String!
   }
