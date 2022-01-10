@@ -1,6 +1,9 @@
 const { graphql, buildSchema } = require("graphql");
 const schema = buildSchema(/* GraphQL */ `
+  # UNION
   union SearchResult = User | Todo
+
+  # ENUM TYPES
 
   enum UserStatus {
     super_admin
@@ -618,28 +621,28 @@ const resolversRoot = {
 
 // SEARCH
 
-graphql(
-  schema,
-  `
-    {
-      search(q: "user") {
-        __typename
-        ... on User {
-          id
-          avatar
-          name {
-            firstName
-          }
-          email
-          status
-        }
-        ... on Todo {
-          id
-          body
-          content
-        }
-      }
-    }
-  `,
-  resolversRoot
-).then((response) => console.log(response.data));
+// graphql(
+//   schema,
+//   `
+//     {
+//       search(q: "user") {
+//         __typename
+//         ... on User {
+//           id
+//           avatar
+//           name {
+//             firstName
+//           }
+//           email
+//           status
+//         }
+//         ... on Todo {
+//           id
+//           body
+//           content
+//         }
+//       }
+//     }
+//   `,
+//   resolversRoot
+// ).then((response) => console.log(response.data));
