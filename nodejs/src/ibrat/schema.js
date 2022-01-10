@@ -12,13 +12,13 @@ module.exports = buildSchema(/* GraphQL */ `
 
     updateUser(id: ID!, firstName: String, lastName: String, age: Int): User!
 
-    deleteUser(id: Int!): User!
+    deleteUser(id: Int!): ID!
 
     createTodo(title: String!, description: String!): Todo!
 
     updateTodo(id: ID!, title: String, description: String): Todo!
 
-    deleteTodo(id: ID!): Todo!
+    deleteTodo(id: ID!): ID!
   }
 
   type User {
