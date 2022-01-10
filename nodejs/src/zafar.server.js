@@ -121,6 +121,7 @@ const schema = buildSchema(/* GraphQL */ `
     me(id: ID!): User!
     todo(id: ID!): Todo
     todos: [Todo!]
+    search(q: String!): [SearchResult!]
   }
 
   # MUTATION
@@ -246,6 +247,32 @@ const resolversRoot = {
         user: user,
       };
     });
+    return result;
+  },
+
+  search: ({ q }) => {
+    const result = [];
+    data.users.forEach((user) => {
+      if (
+        user.avatar.toLowerCase().includes(q.toLowerCase()) ||
+        user.name.firstName.toLowerCase().includes(q.toLowerCase()) ||
+        user.name.lastName.toLowerCase().includes(q.toLowerCase()) ||
+        user.email.toLowerCase().includes(q.toLowerCase()) ||
+        user.status.toLowerCase().includes(q.toLowerCase())
+      ) {
+        result.push(user);
+      }
+    });
+    data.todos.forEach((todo) => {
+      if (
+        todo.body.toLowerCase().includes(q.toLowerCase()) ||
+        todo.content.toLowerCase().includes(q.toLowerCase()) ||
+        todo.type.toLowerCase().includes(q.toLowerCase())
+      ) {
+        result.push(todo);
+      }
+    });
+    console.log(result);
     return result;
   },
 
@@ -588,3 +615,31 @@ const resolversRoot = {
 //   `,
 //   resolversRoot
 // ).then((response) => console.log(response));
+
+// SEARCH
+
+graphql(
+  schema,
+  `
+    {
+      search(q: "user") {
+        __typename
+        ... on User {
+          id
+          avatar
+          name {
+            firstName
+          }
+          email
+          status
+        }
+        ... on Todo {
+          id
+          body
+          content
+        }
+      }
+    }
+  `,
+  resolversRoot
+).then((response) => console.log(response.data));
