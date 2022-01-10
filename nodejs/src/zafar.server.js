@@ -326,3 +326,210 @@ const resolversRoot = {
     };
   },
 };
+
+// ===================================================================
+
+// TODO
+
+// graphql(
+//   schema,
+//   `
+//     {
+//       todo(id: 1) {
+//         id
+//         body
+//         content
+//         status
+//         user {
+//           id
+//           email
+//           avatar
+//           name {
+//             firstName
+//             lastName
+//           }
+//         }
+//       }
+//     }
+//   `,
+//   resolversRoot
+// ).then((response) => console.log(response.data.todo));
+
+// TODOS
+
+graphql(
+  schema,
+  `
+    {
+      todos {
+        id
+        body
+        content
+        status
+        user {
+          id
+          avatar
+          email
+          name {
+            firstName
+          }
+        }
+      }
+    }
+  `,
+  resolversRoot
+).then((response) => console.log(response.data.todos));
+
+// ME;
+
+// graphql(
+//   schema,
+//   `
+//     {
+//       me(id: 2) {
+//         id
+//         avatar
+//         name {
+//           firstName
+//           lastName
+//         }
+//         email
+//       }
+//     }
+//   `,
+//   resolversRoot
+// ).then((response) => console.log(response.data));
+
+// UPDATE USER
+
+// graphql(
+//   schema,
+//   `
+//     mutation {
+//       updateUser(
+//         input: { id: 2, name: {}, email: "user2@mail.ru", password: "12345" }
+//       ) {
+//         id
+//         avatar
+//         name {
+//           firstName
+//           lastName
+//         }
+//         email
+//       }
+//     }
+//   `,
+//   resolversRoot
+// ).then((response) => console.log(response.data));
+
+// CREATE USER
+
+// graphql(
+//   schema,
+//   `
+//     mutation {
+//       createUser(
+//         input: {
+//           avatar: "user"
+//           name: { firstName: "User", lastName: "lastUser" }
+//           email: "user3@mail.ru"
+//           password: "12345"
+//         }
+//       ) {
+//         id
+//         avatar
+//         name {
+//           firstName
+//           lastName
+//         }
+//         email
+//       }
+//     }
+//   `,
+//   resolversRoot
+// ).then((response) => console.log(response.data));
+
+// DELETE USER
+
+// graphql(
+//   schema,
+//   `
+//     mutation {
+//       deleteUser(input: { id: 1, userId: 2 }) {
+//         id
+//         userId
+//       }
+//     }
+//   `,
+//   resolversRoot
+// ).then((response) => console.log(response.data));
+
+// UPDATE TODO
+
+// graphql(
+//   schema,
+//   `
+//     mutation {
+//       updateTodo(input: { id: 3, body: "Updated body", status: false }) {
+//         id
+//         body
+//         content
+//         status
+//         user {
+//           id
+//           avatar
+//           email
+//           name {
+//             firstName
+//           }
+//         }
+//       }
+//     }
+//   `,
+//   resolversRoot
+// ).then((response) => console.log(response.data));
+
+// CREATE TODO
+
+// graphql(
+//   schema,
+//   `
+//     mutation {
+//       createTodo(
+//         input: {
+//           body: "Body of todo"
+//           content: "New_content"
+//           status: false
+//           userId: 2
+//         }
+//       ) {
+//         id
+//         content
+//         status
+//         user {
+//           id
+//           avatar
+//           name {
+//             lastName
+//           }
+//         }
+//       }
+//     }
+//   `,
+//   resolversRoot
+// ).then((response) => console.log(response.data));
+
+// DELETE TODO
+
+// graphql(
+//   schema,
+//   `
+//     mutation {
+//       deleteTodo(input: { id: 4, userId: 2 }) {
+//         id
+//         userId
+//       }
+//     }
+//   `,
+//   resolversRoot
+// ).then((response) => console.log(response));
