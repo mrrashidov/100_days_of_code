@@ -3,8 +3,7 @@ const schema = buildSchema(/* GraphQL */ `
   union SearchResult = User | TODO
 
   enum UserStatus {
-    super
-    admin
+    super_admin
     admin
     moderator
     user
@@ -140,6 +139,7 @@ let data = {
         lastName: "Nabiyev",
       },
       email: "ali@mail.ru",
+      status: "user",
       password: "12345",
     },
     {
@@ -150,6 +150,7 @@ let data = {
         lastName: "Saidov",
       },
       email: "zafar@mail.ru",
+      status: "admin",
       password: "12345",
     },
     {
@@ -160,6 +161,7 @@ let data = {
         lastName: "Soliyev",
       },
       email: "vali@mail.ru",
+      status: "user",
       password: "12345",
     },
   ],
@@ -169,6 +171,7 @@ let data = {
       body: "Read the book",
       content: "content1",
       status: true,
+      type: "other",
       userId: 2,
     },
     {
@@ -176,6 +179,7 @@ let data = {
       body: "Do homeworks",
       content: "content2",
       status: true,
+      type: "meeting",
       userId: 1,
     },
     {
@@ -183,6 +187,7 @@ let data = {
       body: "Have a rest",
       content: "content3",
       status: true,
+      type: "other",
       userId: 1,
     },
     {
@@ -190,6 +195,7 @@ let data = {
       body: "Learn English",
       content: "content4",
       status: true,
+      type: "other",
       userId: 3,
     },
     {
@@ -197,6 +203,7 @@ let data = {
       body: "Graphql",
       content: "content3",
       status: true,
+      type: "other",
       userId: 2,
     },
   ],
@@ -216,6 +223,7 @@ const resolversRoot = {
       body: todo.body,
       content: todo.content,
       status: todo.status,
+      type: todo.type,
       user: user,
     };
   },
@@ -228,6 +236,7 @@ const resolversRoot = {
         body: todo.body,
         content: todo.content,
         status: todo.status,
+        type: todo.type,
         user: user,
       };
     });
@@ -243,6 +252,7 @@ const resolversRoot = {
         lastName: input.name.lastName,
       },
       email: input.email,
+      status: input.status,
       password: input.password,
     };
     data.users.push(newUser);
@@ -265,6 +275,9 @@ const resolversRoot = {
     }
     if (input.email) {
       data.users[index].email = input.email;
+    }
+    if (input.status) {
+      data.users[index].status = input.status;
     }
     if (input.password) {
       data.users[index].password = input.password;
@@ -291,6 +304,7 @@ const resolversRoot = {
       body: input.body,
       content: input.content,
       status: input.status || true,
+      type: input.type,
       userId: input.userId,
     };
     data.todos.push(newTodo);
@@ -300,6 +314,7 @@ const resolversRoot = {
       body: newTodo.body,
       content: newTodo.content,
       status: newTodo.status,
+      type: newTodo.type,
       user: user,
     };
   },
@@ -315,6 +330,9 @@ const resolversRoot = {
     if (input.content) {
       data.todos[index].content = input.content;
     }
+    if (input.type) {
+      data.todos[index].type = input.type;
+    }
     if (input.status !== null) {
       data.todos[index].status = input.status;
     }
@@ -326,6 +344,7 @@ const resolversRoot = {
       body: data.todos[index].body,
       content: data.todos[index].content,
       status: data.todos[index].status,
+      type: data.todos[index].type,
       user: user,
     };
   },
