@@ -1,5 +1,22 @@
 const { graphql, buildSchema } = require("graphql");
 const schema = buildSchema(/* GraphQL */ `
+  union SearchResult = User | TODO
+
+  enum UserStatus {
+    super
+    admin
+    admin
+    moderator
+    user
+  }
+
+  enum TodoType {
+    task
+    holiday
+    meeting
+    other
+  }
+
   # USER
 
   input UserNameInput {
@@ -12,6 +29,7 @@ const schema = buildSchema(/* GraphQL */ `
     name: UserNameInput!
     email: String!
     password: String!
+    status: UserStatus = user
   }
 
   input UpdateUserNameInput {
@@ -25,6 +43,7 @@ const schema = buildSchema(/* GraphQL */ `
     name: UpdateUserNameInput
     email: String
     password: String
+    status: UserStatus
   }
 
   input DeleteUserInput {
@@ -38,6 +57,7 @@ const schema = buildSchema(/* GraphQL */ `
     body: String!
     content: String
     status: Boolean
+    type: TodoType = other
     userId: ID!
   }
 
@@ -46,6 +66,7 @@ const schema = buildSchema(/* GraphQL */ `
     body: String
     content: String
     status: Boolean
+    type: TodoType
   }
 
   input DeleteTodoInput {
@@ -54,15 +75,17 @@ const schema = buildSchema(/* GraphQL */ `
   }
 
   # TYPES
-
+  # TODO
   type Todo {
     id: ID!
     body: String!
     content: String
+    type: TodoType
     status: Boolean
-    user: User
+    user: User!
   }
 
+  # USER
   type UserName {
     firstName: String!
     lastName: String
@@ -73,6 +96,7 @@ const schema = buildSchema(/* GraphQL */ `
     avatar: String!
     name: UserName!
     email: String!
+    status: UserStatus
     password: String!
   }
 
