@@ -6,7 +6,8 @@
             "email": "dev.rashidov@gmail.com"
         }
     ],
-    "require": {
-        "webonyx/graphql-php": "^14.11"
+    "require": {"webonyx/graphql-php": "^14.11",
+      "ext-json": "*",
+      "ext-mbstring": "*"
     }
 }
