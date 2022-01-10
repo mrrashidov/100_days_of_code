@@ -177,3 +177,152 @@ let data = {
     },
   ],
 };
+
+const resolversRoot = {
+  me: ({ id }) => {
+    const user = data.users.find((user) => user.id === parseInt(id));
+    return user;
+  },
+
+  todo: ({ id }) => {
+    const todo = data.todos.find((todo) => todo.id === parseInt(id));
+    const user = data.users.find((user) => user.id === parseInt(todo.userId));
+    return {
+      id: todo.id,
+      body: todo.body,
+      content: todo.content,
+      status: todo.status,
+      user: user,
+    };
+  },
+
+  todos: () => {
+    const result = data.todos.map((todo) => {
+      const user = data.users.find((user) => user.id === parseInt(todo.userId));
+      return {
+        id: todo.id,
+        body: todo.body,
+        content: todo.content,
+        status: todo.status,
+        user: user,
+      };
+    });
+    return result;
+  },
+
+  createUser: ({ input }) => {
+    const newUser = {
+      id: data.users.length + 1,
+      avatar: input.avatar,
+      name: {
+        firstName: input.name.firstName,
+        lastName: input.name.lastName,
+      },
+      email: input.email,
+      password: input.password,
+    };
+    data.users.push(newUser);
+    return newUser;
+  },
+
+  updateUser: ({ input }) => {
+    const index = data.users.findIndex(
+      (user) => user.id === parseInt(input.id)
+    );
+    if (!index) return "User not found";
+    if (input.avatar) {
+      data.users[index].avatar = input.avatar;
+    }
+    if (input.name.firstName) {
+      data.users[index].name.firstName = input.name.firstName;
+    }
+    if (input.name.lastName) {
+      data.users[index].name.lastName = input.name.lastName;
+    }
+    if (input.email) {
+      data.users[index].email = input.email;
+    }
+    if (input.password) {
+      data.users[index].password = input.password;
+    }
+    return data.users[index];
+  },
+
+  deleteUser: ({ input }) => {
+    const index = data.users.findIndex(
+      (user) => user.id === parseInt(input.id)
+    );
+    if (index < 0) return { id: -1, userId: input.userId };
+    const id = data.users[index].id;
+    data.users.splice(index, 1);
+    return {
+      id,
+      userId: input.userId,
+    };
+  },
+
+  createTodo: ({ input }) => {
+    const newTodo = {
+      id: data.todos.length + 1,
+      body: input.body,
+      content: input.content,
+      status: input.status || true,
+      userId: input.userId,
+    };
+    data.todos.push(newTodo);
+    const user = data.users.find((user) => user.id === parseInt(input.userId));
+    return {
+      id: newTodo.id,
+      body: newTodo.body,
+      content: newTodo.content,
+      status: newTodo.status,
+      user: user,
+    };
+  },
+
+  updateTodo: ({ input }) => {
+    const index = data.todos.findIndex(
+      (todo) => todo.id === parseInt(input.id)
+    );
+    if (!index) return "Todo not found";
+    if (input.body) {
+      data.todos[index].body = input.body;
+    }
+    if (input.content) {
+      data.todos[index].content = input.content;
+    }
+    if (input.status !== null) {
+      data.todos[index].status = input.status;
+    }
+    const user = data.users.find(
+      (user) => user.id === parseInt(data.todos[index].userId)
+    );
+    return {
+      id: data.todos[index].id,
+      body: data.todos[index].body,
+      content: data.todos[index].content,
+      status: data.todos[index].status,
+      user: user,
+    };
+  },
+
+  deleteTodo: ({ input }) => {
+    const index = data.todos.findIndex(
+      (todo) => todo.id === parseInt(input.id)
+    );
+    const userIndex = data.users.findIndex(
+      (user) => user.id === parseInt(input.userId)
+    );
+    if (index < 0 && userIndex < 0) return { id: index, userId: userIndex };
+    if (index < 0 && userIndex > 0)
+      return { id: index, userId: data.users[userIndex].id };
+    if (index > 0 && userIndex < 0)
+      return { id: data.todos[index].id, userId: userIndex };
+    const id = data.todos[index].id;
+    data.todos.splice(index, 1);
+    return {
+      id,
+      userId: input.userId,
+    };
+  },
+};
