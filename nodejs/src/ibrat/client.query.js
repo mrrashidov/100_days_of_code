@@ -3,12 +3,12 @@ const createUser = `
     createUser(
       firstName: "New user first name"
       lastName: "New user last name"
-      age: "New user age"
+      age: 20
     ) {
       id
       fullName {
-        firstName: String
-        lastName: String
+        firstName
+        lastName
       }
       age
     }
@@ -21,12 +21,12 @@ const updateUser = `
       id: 1
       firstName: "Updated user first name"
       lastName: "Updated user last name"
-      age: "Updated user age"
+      age: 30
     ) {
       id
       fullName {
-        firstName: String
-        lastName: String
+        firstName
+        lastName
       }
       age
     }
@@ -51,7 +51,7 @@ const createTodo = `
       id
       content {
         title
-        desctiption
+        description
       }
     }
   }
@@ -68,7 +68,7 @@ const updateTodo = `
       id
       content {
         title
-        desctiption
+        description
       }
     }
   }
@@ -82,9 +82,9 @@ const deleteTodo = `
   }
 `;
 
-const getUserById = `
+const me = `
   query {
-    getUserById(id: 1){
+    me(id: 1){
       fullName {
         firstName
         lastName
@@ -94,7 +94,7 @@ const getUserById = `
   }
 `;
 
-const getTodoById = `
+const todo = `
   query {
     todo(id: 1){
       content {
@@ -112,7 +112,7 @@ const getTodoById = `
   }
 `;
 
-const getTodos = `
+const todos = `
   query {
     todos(limit: 2){
       content {
@@ -132,9 +132,9 @@ const getTodos = `
 
 module.exports = {
   Query: {
-    getTodoById,
-    getTodos,
-    getUserById,
+    todo,
+    todos,
+    me,
   },
   Mutation: {
     createUser,

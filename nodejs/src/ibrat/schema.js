@@ -4,7 +4,7 @@ module.exports = buildSchema(/* GraphQL */ `
   type Query {
     todo(id: ID!): Todo
     todos(limit: Int!): [Todo!]
-    getUserById(id: ID!): User
+    me(id: ID!): User
   }
 
   type Mutation {
@@ -12,16 +12,17 @@ module.exports = buildSchema(/* GraphQL */ `
 
     updateUser(id: ID!, firstName: String, lastName: String, age: Int): User!
 
-    deleteUser(id: Int!): ID!
+    deleteUser(id: Int!): DeletedUser!
 
-    createTodo(title: String!, description: String!): Todo!
+    createTodo(title: String!, description: String!, userId: Int!): Todo!
 
-    updateTodo(id: ID!, title: String, description: String): Todo!
+    updateTodo(id: ID!, title: String, description: String, userId: Int!): Todo!
 
-    deleteTodo(id: ID!): ID!
+    deleteTodo(id: ID!): DeletedTodo!
   }
 
   type User {
+    id: ID!
     fullName: UserFullName!
     age: Int!
   }
@@ -29,6 +30,10 @@ module.exports = buildSchema(/* GraphQL */ `
   type UserFullName {
     firstName: String!
     lastName: String!
+  }
+
+  type DeletedUser {
+    id: ID!
   }
 
   type Todo {
@@ -40,5 +45,9 @@ module.exports = buildSchema(/* GraphQL */ `
   type TodoContent {
     title: String!
     description: String!
+  }
+
+  type DeletedTodo {
+    id: ID!
   }
 `);

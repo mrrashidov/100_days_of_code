@@ -20,14 +20,18 @@ module.exports = {
   todos: [
     {
       id: 1,
-      title: "Users Service",
-      description: "Users serviceda getUserById'ni yozish kerak kerak.",
+      content: {
+        title: "Users Service",
+        description: "Users serviceda getUserById'ni yozish kerak kerak.",
+      },
       userId: 2,
     },
     {
       id: 2,
-      title: "Products Service",
-      description: "Products serviceda getCountOfProducts'ni yozish kerak.",
+      content: {
+        title: "Products Service",
+        description: "Products serviceda getCountOfProducts'ni yozish kerak.",
+      },
       userId: 1,
     },
   ],

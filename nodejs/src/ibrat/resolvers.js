@@ -1,10 +1,13 @@
 const database = require("./database");
 
 const createUser = (args) => {
+  console.log("kirdi");
   const user = {
     id: database.users.length + 1,
-    firstName: args.firstName,
-    lastName: args.lastName,
+    fullName: {
+      firstName: args.firstName,
+      lastName: args.lastName,
+    },
     age: args.age,
   };
 
@@ -13,8 +16,7 @@ const createUser = (args) => {
   return user;
 };
 
-const getUserById = (args) => {
-  console.log("kirdi");
+const me = (args) => {
   const user = database.users.find((user) => args.id == user.id);
 
   if (!user) {
@@ -32,12 +34,14 @@ const updateUser = (args) => {
   }
 
   database.users[userIndex] = {
-    firstName: args.firstName,
-    lastName: args.lastName,
+    fullName: {
+      firstName: args.firstName,
+      lastName: args.lastName,
+    },
     age: args.age,
   };
 
-  return database.users[userIndex];
+  return database.users[args.id];
 };
 
 const deleteUser = (args) => {
@@ -49,14 +53,16 @@ const deleteUser = (args) => {
 
   database.users.splice(userIndex, 1);
 
-  return userIndex;
+  return { id: args.id };
 };
 
 const createTodo = (args) => {
   const todo = {
     id: database.todos.length + 1,
-    title: args.title,
-    description: args.description,
+    content: {
+      title: args.title,
+      description: args.description,
+    },
     userId: args.userId,
   };
 
@@ -65,7 +71,7 @@ const createTodo = (args) => {
   return todo;
 };
 
-const getTodoById = (args) => {
+const todo = (args) => {
   const todo = database.todos.find((todo) => args.id == todo.id);
   const user = database.users.find((user) => todo.id == user.id);
 
@@ -78,7 +84,7 @@ const getTodoById = (args) => {
   return todo;
 };
 
-const getTodos = (args) => {
+const todos = (args) => {
   console.log("kirdi");
   const todos = database.todos.slice(0, args.limit).map((todo) => {
     const user = database.users.find((user) => todo.id == user.id);
@@ -97,12 +103,11 @@ const updateTodo = (args) => {
   }
 
   database.todos[todoIndex] = {
-    title: args.title,
-    description: args.description,
+    content: { title: args.title, description: args.description },
     userId: args.userId,
   };
 
-  return database.todos[todoIndex];
+  return database.todos[args.id];
 };
 
 const deleteTodo = (args) => {
@@ -114,7 +119,7 @@ const deleteTodo = (args) => {
 
   database.todos.splice(todoIndex, 1);
 
-  return todoIndex;
+  return { id: args.id };
 };
 
 module.exports = {
@@ -124,7 +129,7 @@ module.exports = {
   createTodo,
   updateTodo,
   deleteTodo,
-  getUserById,
-  getTodoById,
-  getTodos,
+  me,
+  todo,
+  todos,
 };
