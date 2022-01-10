@@ -1,4 +1,4 @@
-#Namuna
+#enum union va interface implement qilinsin
 type Todo {
   id: ID!
   name:String
