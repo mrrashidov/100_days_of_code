@@ -1,6 +1,6 @@
 const { graphql, buildSchema } = require("graphql");
 const schema = buildSchema(/* GraphQL */ `
-  union SearchResult = User | TODO
+  union SearchResult = User | Todo
 
   enum UserStatus {
     super_admin
@@ -378,7 +378,7 @@ const resolversRoot = {
 //   schema,
 //   `
 //     {
-//       todo(id: 1) {
+//       todo(id: 3) {
 //         id
 //         body
 //         content
@@ -400,28 +400,29 @@ const resolversRoot = {
 
 // TODOS
 
-graphql(
-  schema,
-  `
-    {
-      todos {
-        id
-        body
-        content
-        status
-        user {
-          id
-          avatar
-          email
-          name {
-            firstName
-          }
-        }
-      }
-    }
-  `,
-  resolversRoot
-).then((response) => console.log(response.data.todos));
+// graphql(
+//   schema,
+//   `
+//     {
+//       todos {
+//         id
+//         body
+//         content
+//         status
+//         type
+//         user {
+//           id
+//           avatar
+//           email
+//           name {
+//             firstName
+//           }
+//         }
+//       }
+//     }
+//   `,
+//   resolversRoot
+// ).then((response) => console.log(response.data.todos));
 
 // ME;
 
@@ -429,7 +430,7 @@ graphql(
 //   schema,
 //   `
 //     {
-//       me(id: 2) {
+//       me(id: 1) {
 //         id
 //         avatar
 //         name {
@@ -437,6 +438,7 @@ graphql(
 //           lastName
 //         }
 //         email
+//         status
 //       }
 //     }
 //   `,
@@ -449,15 +451,14 @@ graphql(
 //   schema,
 //   `
 //     mutation {
-//       updateUser(
-//         input: { id: 2, name: {}, email: "user2@mail.ru", password: "12345" }
-//       ) {
+//       updateUser(input: { id: 2, name: {}, email: "user2@mail.ru" }) {
 //         id
 //         avatar
 //         name {
 //           firstName
 //           lastName
 //         }
+//         status
 //         email
 //       }
 //     }
@@ -485,6 +486,7 @@ graphql(
 //           firstName
 //           lastName
 //         }
+//         status
 //         email
 //       }
 //     }
@@ -513,11 +515,12 @@ graphql(
 //   schema,
 //   `
 //     mutation {
-//       updateTodo(input: { id: 3, body: "Updated body", status: false }) {
+//       updateTodo(input: { id: 2, body: "Updated body", status: false }) {
 //         id
 //         body
 //         content
 //         status
+//         type
 //         user {
 //           id
 //           avatar
@@ -543,12 +546,14 @@ graphql(
 //           body: "Body of todo"
 //           content: "New_content"
 //           status: false
+//           type: holiday
 //           userId: 2
 //         }
 //       ) {
 //         id
 //         content
 //         status
+//         type
 //         user {
 //           id
 //           avatar
