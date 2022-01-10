@@ -73,9 +73,15 @@ const schema = buildSchema(/* GraphQL */ `
     userId: ID!
   }
 
+  # INTERFACES
+
+  interface SearchResultInterface {
+    id: ID!
+  }
+
   # TYPES
   # TODO
-  type Todo {
+  type Todo implements SearchResultInterface {
     id: ID!
     body: String!
     content: String
@@ -90,7 +96,7 @@ const schema = buildSchema(/* GraphQL */ `
     lastName: String
   }
 
-  type User {
+  type User implements SearchResultInterface {
     id: ID!
     avatar: String!
     name: UserName!
@@ -477,6 +483,7 @@ const resolversRoot = {
 //           avatar: "user"
 //           name: { firstName: "User", lastName: "lastUser" }
 //           email: "user3@mail.ru"
+//           status: moderator
 //           password: "12345"
 //         }
 //       ) {
