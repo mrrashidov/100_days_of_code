@@ -1,7 +1,6 @@
 const database = require("./database");
 
 const createUser = (args) => {
-  console.log("kirdi");
   const user = {
     id: database.users.length + 1,
     fullName: {
@@ -85,7 +84,6 @@ const todo = (args) => {
 };
 
 const todos = (args) => {
-  console.log("kirdi");
   const todos = database.todos.slice(0, args.limit).map((todo) => {
     const user = database.users.find((user) => todo.id == user.id);
     todo.user = user;
