@@ -1,5 +1,6 @@
 nodejs/node_modules
 nodejs/yarn.lock
+nodejs/package-lock.json
 php/vendor
 php/composer.lock
 .idea
