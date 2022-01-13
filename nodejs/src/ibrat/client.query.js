@@ -133,11 +133,32 @@ const todos = `
   }
 `;
 
+const search = `
+  query {
+    search(pattern: "a"){
+      __typename
+      ...on User {
+        id
+        fullName {
+          firstName
+        }
+      }
+      ...on Todo {
+        id
+        content {
+          title
+        }
+      }
+    }
+  }
+`;
+
 module.exports = {
   Query: {
     todo,
     todos,
     me,
+    search,
   },
   Mutation: {
     createUser,

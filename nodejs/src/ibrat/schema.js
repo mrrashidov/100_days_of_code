@@ -7,10 +7,17 @@ module.exports = buildSchema(/* GraphQL */ `
     High
   }
 
+  union SearchResult = User | Todo
+
+  interface ISearchResult {
+    id: ID
+  }
+
   type Query {
     todo(id: ID!): Todo
     todos(limit: Int!): [Todo!]
     me(id: ID!): User
+    search(pattern: String!): SearchResult
   }
 
   type Mutation {
@@ -32,7 +39,7 @@ module.exports = buildSchema(/* GraphQL */ `
     deleteTodo(id: ID!): DeletedTodo!
   }
 
-  type User {
+  type User implements ISearchResult {
     id: ID!
     fullName: UserFullName!
     age: Int!
@@ -47,7 +54,7 @@ module.exports = buildSchema(/* GraphQL */ `
     id: ID!
   }
 
-  type Todo {
+  type Todo implements ISearchResult {
     id: ID!
     content: TodoContent!
     user: User
