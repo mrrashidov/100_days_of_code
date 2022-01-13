@@ -47,12 +47,14 @@ const createTodo = `
       title: "New todo title"
       description: "New todo description"
       userId: 1
+      priority: Middle
     ) {
       id
       content {
         title
         description
       }
+      priority
     }
   }
 `;
@@ -126,6 +128,7 @@ const todos = `
         }
         age
       }
+      priority
     }
   }
 `;

@@ -1,6 +1,12 @@
 const { buildSchema } = require("graphql");
 
 module.exports = buildSchema(/* GraphQL */ `
+  enum Priority {
+    Low
+    Middle
+    High
+  }
+
   type Query {
     todo(id: ID!): Todo
     todos(limit: Int!): [Todo!]
@@ -14,7 +20,12 @@ module.exports = buildSchema(/* GraphQL */ `
 
     deleteUser(id: Int!): DeletedUser!
 
-    createTodo(title: String!, description: String!, userId: Int!): Todo!
+    createTodo(
+      title: String!
+      description: String!
+      userId: Int!
+      priority: Priority!
+    ): Todo!
 
     updateTodo(id: ID!, title: String, description: String, userId: Int!): Todo!
 
@@ -40,6 +51,7 @@ module.exports = buildSchema(/* GraphQL */ `
     id: ID!
     content: TodoContent!
     user: User
+    priority: Priority
   }
 
   type TodoContent {

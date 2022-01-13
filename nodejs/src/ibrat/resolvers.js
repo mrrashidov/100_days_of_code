@@ -63,6 +63,7 @@ const createTodo = (args) => {
       description: args.description,
     },
     userId: args.userId,
+    priority: args.priority,
   };
 
   database.todos.push(todo);
