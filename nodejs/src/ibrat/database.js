@@ -25,6 +25,7 @@ module.exports = {
         description: "Users serviceda getUserById'ni yozish kerak kerak.",
       },
       userId: 2,
+      priority: "High",
     },
     {
       id: 2,
@@ -33,6 +34,7 @@ module.exports = {
         description: "Products serviceda getCountOfProducts'ni yozish kerak.",
       },
       userId: 1,
+      priority: "Low",
     },
   ],
 };

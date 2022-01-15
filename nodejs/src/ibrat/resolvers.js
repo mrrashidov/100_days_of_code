@@ -63,6 +63,7 @@ const createTodo = (args) => {
       description: args.description,
     },
     userId: args.userId,
+    priority: args.priority,
   };
 
   database.todos.push(todo);
@@ -120,6 +121,32 @@ const deleteTodo = (args) => {
   return { id: args.id };
 };
 
+const search = (args) => {
+  const result = [];
+
+  database.users.forEach((user) => {
+    if (
+      user.fullName.firstName.includes(args.pattern) ||
+      user.fullName.lastName.includes(args.pattern)
+    ) {
+      result.push(user);
+    }
+  });
+
+  database.todos.forEach((todo) => {
+    if (
+      todo.content.title.includes(args.pattern) ||
+      todo.content.description.includes(args.pattern)
+    ) {
+      result.push(todo);
+    }
+  });
+
+  console.log(result);
+
+  return result;
+};
+
 module.exports = {
   createUser,
   updateUser,
@@ -130,4 +157,5 @@ module.exports = {
   me,
   todo,
   todos,
+  search,
 };

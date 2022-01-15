@@ -47,12 +47,14 @@ const createTodo = `
       title: "New todo title"
       description: "New todo description"
       userId: 1
+      priority: Middle
     ) {
       id
       content {
         title
         description
       }
+      priority
     }
   }
 `;
@@ -126,6 +128,27 @@ const todos = `
         }
         age
       }
+      priority
+    }
+  }
+`;
+
+const search = `
+  query {
+    search(pattern: "a"){
+      __typename
+      ...on User {
+        id
+        fullName {
+          firstName
+        }
+      }
+      ...on Todo {
+        id
+        content {
+          title
+        }
+      }
     }
   }
 `;
@@ -135,6 +158,7 @@ module.exports = {
     todo,
     todos,
     me,
+    search,
   },
   Mutation: {
     createUser,

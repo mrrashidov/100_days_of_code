@@ -1,10 +1,23 @@
 const { buildSchema } = require("graphql");
 
 module.exports = buildSchema(/* GraphQL */ `
+  enum Priority {
+    Low
+    Middle
+    High
+  }
+
+  union SearchResult = User | Todo
+
+  interface ISearchResult {
+    id: ID
+  }
+
   type Query {
     todo(id: ID!): Todo
     todos(limit: Int!): [Todo!]
     me(id: ID!): User
+    search(pattern: String!): SearchResult
   }
 
   type Mutation {
@@ -14,14 +27,19 @@ module.exports = buildSchema(/* GraphQL */ `
 
     deleteUser(id: Int!): DeletedUser!
 
-    createTodo(title: String!, description: String!, userId: Int!): Todo!
+    createTodo(
+      title: String!
+      description: String!
+      userId: Int!
+      priority: Priority!
+    ): Todo!
 
     updateTodo(id: ID!, title: String, description: String, userId: Int!): Todo!
 
     deleteTodo(id: ID!): DeletedTodo!
   }
 
-  type User {
+  type User implements ISearchResult {
     id: ID!
     fullName: UserFullName!
     age: Int!
@@ -36,10 +54,11 @@ module.exports = buildSchema(/* GraphQL */ `
     id: ID!
   }
 
-  type Todo {
+  type Todo implements ISearchResult {
     id: ID!
     content: TodoContent!
     user: User
+    priority: Priority
   }
 
   type TodoContent {
