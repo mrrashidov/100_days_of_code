@@ -1,0 +1,32 @@
+{
+  "name": "100_days_of_code",
+  "version": "1.0.0",
+  "description": "### Run local php server ``` php -S localhost:8080 server.php ``` ### OR ### Run local node server ``` yarn dev ```",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrrashidov/100_days_of_code.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrrashidov/100_days_of_code/issues"
+  },
+  "homepage": "https://github.com/mrrashidov/100_days_of_code#readme",
+  "dependencies": {
+    "apollo-server": "^3.6.1",
+    "apollo-server-core": "^3.6.1",
+    "graphql": "^16.2.0",
+    "knex": "^0.95.15",
+    "pg": "^8.7.1",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

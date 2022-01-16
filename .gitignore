@@ -5,3 +5,7 @@ php/vendor
 php/composer.lock
 .idea
 .code
+zafar-lesson-5/node_modules
+zafar-lesson-5/yarn.lock
+zafar-lesson-5/package-lock.json
+codes
