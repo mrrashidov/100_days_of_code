@@ -1,7 +1,7 @@
-const {login} = require('../actions/user')
+const { login } = require("../actions/user");
 module.exports = {
-    Query: {},
-    Mutation: {
-        login: () => login()
-    },
-}
+  Query: {},
+  Mutation: {
+    login: () => login(),
+  },
+};
