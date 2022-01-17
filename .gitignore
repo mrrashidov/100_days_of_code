@@ -5,3 +5,5 @@ php/vendor
 php/composer.lock
 .idea
 .code
+package-lock.json
+composer-lock.json

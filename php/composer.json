@@ -1,0 +1,13 @@
+{
+    "name": "graphql/php",
+    "authors": [
+        {
+            "name": "Shoxrux Rashidov",
+            "email": "dev.rashidov@gmail.com"
+        }
+    ],
+    "require": {"webonyx/graphql-php": "^14.11",
+      "ext-json": "*",
+      "ext-mbstring": "*"
+    }
+}
