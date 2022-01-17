@@ -1,7 +1,7 @@
 const config = require('../../../../knexfile'),
     Knex = require('knex'),
     knex = Knex(config.development)
-class User {
+class Permission {
     async list(_, {input}, context, root) {
         return null
     }
@@ -23,4 +23,4 @@ class User {
     }
 }
 
-module.exports = new User()
+module.exports = new Permission()
