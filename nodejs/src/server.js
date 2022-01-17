@@ -1,52 +1,42 @@
-const { ApolloServer, gql } = require('apollo-server');
-const {ApolloServerPluginLandingPageGraphQLPlayground} = require('apollo-server-core')
-const books = [
+require('dotenv').config()
+const express = require('express'),
+    http = require('http'),
+    { ApolloServer } = require('apollo-server-express'),
     {
-        title: 'The Awakening',
-        author: 'Kate Chopin',
-    },
-    {
-        title: 'City of Glass',
-        author: 'Paul Auster',
-    },
-];
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
-const typeDefs = gql`
-    # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+        ApolloServerPluginDrainHttpServer,
+        ApolloServerPluginLandingPageGraphQLPlayground,
+        ApolloServerPluginCacheControlDisabled,
+        ApolloServerPluginInlineTraceDisabled
+    } = require('apollo-server-core'),
+    { context, formatError } = require('./middleware'),
+    schema = require('./schema')
 
-    # This "Book" type defines the queryable fields for every book in our data source.
-    type Book {
-        title: String
-        author: String
-    }
+async function startApolloServer(port) {
+    const app = express()
+    app.disable('x-powered-by')
+    app.get('/', async (req, res) => {
+        return res.status(200).json({
+            errors: true,
+            message: 'Cannot get'
+        })
+    })
 
-    # The "Query" type is special: it lists all of the available queries that
-    # clients can execute, along with the return type for each. In this
-    # case, the "books" query returns an array of zero or more Books (defined above).
-    type Query {
-        books: [Book]
-        hello(sayHi: String!): String
-    }
-`;
+    const httpServer = http.createServer(app)
+    const server = new ApolloServer({
+        introspection: true,
+        schema,
+        plugins: [
+            ApolloServerPluginCacheControlDisabled(),
+            ApolloServerPluginInlineTraceDisabled(),
+            ApolloServerPluginLandingPageGraphQLPlayground(),
+            ApolloServerPluginDrainHttpServer({ httpServer })
+        ]
+    })
 
-const resolvers = {
-    Query: {
-        books: () => books,
-        hello:(_, {sayHi})=> sayHi
-    },
-};
+    await server.start()
+    server.applyMiddleware({ app })
+    await new Promise((resolve) => httpServer.listen({ port }, resolve))
+    console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`)
+}
 
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
-const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    plugins:[ApolloServerPluginLandingPageGraphQLPlayground()]
-});
-
-// The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-    console.log(`🚀  Server ready at ${url}`);
-});
+startApolloServer(3000)

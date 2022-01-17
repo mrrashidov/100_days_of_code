@@ -1,4 +1,4 @@
-const {gql} = require('apollo-server')
+const {gql} = require('apollo-server-core')
 module.exports = gql`
     input LoginInput {
         email: String
@@ -16,21 +16,18 @@ module.exports = gql`
         password:String!
         password_confirmation:String!
     }
-    type User {
-
+    extend type User {
+        id:ID
     }
     type AuthResponse {
         message: String
         token: String
         user: User
     }
-    type Query {
-        user(id:ID!): User
-    }
     
     type Mutation {
-        login(input: LoginInput!): AuthResponse!
-        signup(input: SignupInput!): AuthResponse!
+        login(input: LoginInput!): AuthResponse
+        signup(input: SignupInput!): AuthResponse
         verification(email:String phone:String):Boolean! #TODO Boolean responselar ozgartirlishi kk
         verify(code:Int!): Boolean! # TODO Boolean
         passwordForgot(email:String phone: String): Boolean! # TODO Boolean
