@@ -43,5 +43,7 @@ module.exports = {
       team.delete(parent, context, root, args),
     updateUser: (parent, context, root, args) =>
       user.update(parent, context, root, args),
+    updateUserPassword: (parent, context, root, args) =>
+      user.updatePassword(parent, context, root, args),
   },
 };

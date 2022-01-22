@@ -13,6 +13,10 @@ module.exports = gql`
     avatar: String
     name: UserNameUpdateInput
     status: Status
+  }
+
+  input UserPasswordUpdateInput {
+    id: ID!
     password_old: String
     password_new: String
     password_confirmation: String
@@ -79,5 +83,6 @@ module.exports = gql`
     updateTeam(id: ID!): Boolean
     deleteTeam(id: ID!): Boolean
     updateUser(input: UserUpdateInput): User
+    updateUserPassword(input: UserPasswordUpdateInput): Boolean
   }
 `;

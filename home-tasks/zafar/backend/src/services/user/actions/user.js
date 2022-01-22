@@ -1,4 +1,5 @@
 const config = require("../../../../knexfile"),
+  { AuthenticationError } = require("apollo-server-core"),
   Knex = require("knex"),
   knex = Knex(config.development);
 class User {
@@ -82,6 +83,29 @@ class User {
       },
       status: updatedUser.status,
     };
+  }
+
+  async updatePassword(_, { input }, context, root) {
+    const findUser = await knex
+      .raw(
+        `
+            SELECT *
+            FROM users
+            WHERE id = ?
+            AND password = crypt(?, password)`,
+        [input.id, input.password_old]
+      )
+      .then(({ rows }) => rows[0]);
+    if (!findUser) throw new AuthenticationError("Invalid credentials");
+    if (input.password_new !== input.password_confirmation)
+      throw new AuthenticationError("Invalid credentials");
+    await knex("users")
+      .where({ id: input.id })
+      .update({
+        password: knex.raw(`crypt(?,gen_salt('md5'))`, input.password_new),
+      });
+
+    return true;
   }
 
   async delete(_, { input }, context, root) {
