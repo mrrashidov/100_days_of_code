@@ -1,5 +1,5 @@
 exports.up = function (knex) {
-  return knex.schema.createTable("roles", function (table) {
+  return knex.schema.createTable("chat_rooms", function (table) {
     table.increments("id");
     table.string("name", 35).notNullable();
     table.string("description", 255).notNullable();
@@ -10,5 +10,5 @@ exports.up = function (knex) {
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable("roles");
+  return knex.schema.dropTable("chat_rooms");
 };
