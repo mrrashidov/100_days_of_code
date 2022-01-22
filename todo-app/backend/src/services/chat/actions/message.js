@@ -1,13 +1,9 @@
 const config = require("../../../../knexfile"),
-  { status } = require("../../../helpers/constants"),
   Knex = require("knex"),
   knex = Knex(config.development);
-
-class Role {
+class User {
   async list(_, { input }, context, root) {
-    return knex("roles").where({
-      status: status.active,
-    });
+    return null;
   }
 
   async find(_, { input }, context, root) {
@@ -27,4 +23,4 @@ class Role {
   }
 }
 
-module.exports = new Role();
+module.exports = new User();

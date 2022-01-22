@@ -1,26 +1,26 @@
-const config = require('../../../../knexfile'),
-    Knex = require('knex'),
-    knex = Knex(config.development)
+const config = require("../../../../knexfile"),
+  Knex = require("knex"),
+  knex = Knex(config.development);
 class Permission {
-    async list(_, {input}, context, root) {
-        return null
-    }
+  async list(_, { input }, context, root) {
+    return knex("permissions").select("*");
+  }
 
-    async find(_, {input}, context, root) {
-        return null
-    }
+  async find(_, { input }, context, root) {
+    return null;
+  }
 
-    async create(_, {input}, context, root) {
-        return null
-    }
+  async create(_, { input }, context, root) {
+    return null;
+  }
 
-    async update(_, {input}, context, root) {
-        return null
-    }
+  async update(_, { input }, context, root) {
+    return null;
+  }
 
-    async delete(_, {input}, context, root) {
-        return null
-    }
+  async delete(_, { input }, context, root) {
+    return null;
+  }
 }
 
-module.exports = new Permission()
+module.exports = new Permission();
