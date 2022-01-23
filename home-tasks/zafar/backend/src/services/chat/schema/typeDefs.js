@@ -29,11 +29,11 @@ module.exports = gql`
   type Message {
     roomId: ID!
     userId: ID!
-    message: String!
+    content: String!
   }
 
   type ChatRoomMessage {
-    sender: ChatRoomReciver
+    sender: User
     reciver: ChatRoomReciver
     message: Message
   }

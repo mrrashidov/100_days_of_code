@@ -13,6 +13,7 @@ module.exports = gql`
   }
 
   input CreateCategoryInput {
+    userId: ID!
     name: String!
     description: String
     status: Status = "active"
@@ -63,6 +64,7 @@ module.exports = gql`
     id: ID
     user: User
     name: String
+    description: String
   }
 
   type Tag {
