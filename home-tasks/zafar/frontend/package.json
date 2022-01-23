@@ -1,0 +1,24 @@
+{
+  "name": "todo-app",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "graphql": "^16.2.0",
+    "vee-validate": "^4.5.7",
+    "villus": "^1.0.1",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.12",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.0.0",
+    "autoprefixer": "^10.4.2",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.15",
+    "vite": "^2.7.2"
+  }
+}
