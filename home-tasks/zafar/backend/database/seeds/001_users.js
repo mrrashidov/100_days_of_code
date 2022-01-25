@@ -1,3 +1,5 @@
+const { default: knex } = require("knex");
+
 const users = [
   {
     username: "john",
@@ -67,7 +69,8 @@ const users = [
   },
 ];
 
-exports.seed = (knex) =>
+exports.seed = (knex) => {
   knex("users")
     .del()
     .then(() => knex("users").insert(users));
+};
