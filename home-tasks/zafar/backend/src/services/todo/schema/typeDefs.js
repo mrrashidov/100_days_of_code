@@ -22,7 +22,7 @@ module.exports = gql`
     id: ID!
     name: String
     description: String
-    status: Status
+    # status: Status
   }
   input CreateTagInput {
     name: String!
@@ -82,7 +82,7 @@ module.exports = gql`
   }
   type Query {
     category(id: ID!): Category
-    categories(id: ID): [Category]
+    categories: [Category]
     tag(id: ID!): Tag
     tags(id: ID): [Tag]
     todo(id: ID!): Todo

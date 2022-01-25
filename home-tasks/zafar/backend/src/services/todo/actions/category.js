@@ -1,15 +1,22 @@
+const { UserInputError } = require("apollo-server-core");
+
 const config = require("../../../../knexfile"),
   Knex = require("knex"),
   knex = Knex(config.development),
-  { createCategory } = require("../validators"),
+  { createCategory, updateCategory } = require("../validators"),
   { validator } = require("../../../helpers");
 class Category {
-  async list(_, { input }, context, root) {
-    return null;
+  async list(_, __, context, root) {
+    const categories = await knex("categories");
+    return categories;
   }
 
-  async find(_, { input }, context, root) {
-    return null;
+  async find(_, { id }, context, root) {
+    const category = await knex("categories").where({ id }).first();
+    if (!category) {
+      throw new Error("Category not found");
+    }
+    return category;
   }
 
   async create(_, { input }, context, root) {
@@ -32,11 +39,42 @@ class Category {
   }
 
   async update(_, { input }, context, root) {
-    return null;
+    const category = await knex("categories").where({ id: input.id }).first();
+    console.log(category);
+    if (!category) {
+      throw new UserInputError("Category not found");
+    }
+    const result = await validator(updateCategory, input);
+    if (result) {
+      await knex("categories")
+        .where({ id: input.id })
+        .update({
+          name: input.name || category.name,
+          description: input.description || category.description,
+        });
+    }
+    return {
+      id: 2,
+      message: {
+        title: "Success",
+        body: "Updated category",
+      },
+    };
   }
 
-  async delete(_, { input }, context, root) {
-    return null;
+  async delete(_, { id }, context, root) {
+    const category = await knex("categories").where({ id }).first();
+    if (!category) {
+      throw new Error("Category not found");
+    }
+    await knex("categories").where({ id }).del();
+    return {
+      id: 3,
+      message: {
+        title: "Success",
+        body: "Deleted category",
+      },
+    };
   }
 }
 
