@@ -6,6 +6,10 @@ module.exports = {
       chat.find(parent, context, root, args),
     rooms: (parent, context, root, args) =>
       chat.list(parent, context, root, args),
+    message: (parent, context, root, args) =>
+      message.find(parent, context, root, args),
+    messages: (parent, context, root, args) =>
+      message.list(parent, context, root, args),
   },
   Mutation: {
     createRoom: (parent, context, root, args) =>

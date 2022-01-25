@@ -4,16 +4,14 @@ const config = require("../../../../knexfile"),
   { create } = require("../validators"),
   { validator } = require("../../../helpers");
 
-class User {
+class Chat {
   async list(_, __, context, root) {
     const rooms = await knex("chat_rooms");
     return rooms;
   }
 
   async find(_, { roomId }, context, root) {
-    console.log(roomId);
-    const room = await knex("chat_rooms").where({ id: 5 });
-    console.log(room);
+    const room = await knex("chat_rooms").where({ id: roomId }).first();
     return room;
   }
 
@@ -73,4 +71,4 @@ class User {
   }
 }
 
-module.exports = new User();
+module.exports = new Chat();

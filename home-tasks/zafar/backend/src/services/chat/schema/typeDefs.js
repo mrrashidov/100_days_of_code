@@ -1,5 +1,10 @@
 const { gql } = require("apollo-server-core");
 module.exports = gql`
+  enum TypeReceiver {
+    user
+    group
+  }
+
   union ChatRoomReciver = User | Group
 
   input CreateChatRoomInput {
@@ -14,6 +19,7 @@ module.exports = gql`
     content: String!
     senderId: ID!
     reciverId: ID!
+    typeReceiver: TypeReceiver!
   }
   input UpdateMessageInput {
     id: ID!
@@ -27,9 +33,9 @@ module.exports = gql`
   }
 
   type Message {
-    roomId: ID!
-    userId: ID!
+    id: ID!
     content: String!
+    typeReceiver: TypeReceiver!
   }
 
   type ChatRoomMessage {
@@ -47,6 +53,8 @@ module.exports = gql`
   type Query {
     room(roomId: ID!, userId: ID!): ChatRoom
     rooms: [ChatRoom]
+    message(id: ID!): ChatRoomMessage
+    messages: [ChatRoomMessage]
   }
 
   type Mutation {
