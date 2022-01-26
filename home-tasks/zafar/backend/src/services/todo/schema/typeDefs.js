@@ -26,6 +26,7 @@ module.exports = gql`
   }
   input CreateTagInput {
     name: String!
+    userId: ID!
     color: TagColors = "red"
     description: String
     status: Status = "active"
@@ -36,6 +37,7 @@ module.exports = gql`
     color: TagColors
     description: String
     status: Status
+    type: Boolean
   }
   input CreateTodoInput {
     name: String!
@@ -72,6 +74,9 @@ module.exports = gql`
     user: User
     name: String
     color: TagColors
+    description: String
+    status: Status
+    createdAt: String
   }
 
   type Todo {
@@ -84,7 +89,7 @@ module.exports = gql`
     category(id: ID!): Category
     categories: [Category]
     tag(id: ID!): Tag
-    tags(id: ID): [Tag]
+    tags: [Tag]
     todo(id: ID!): Todo
     todos(id: ID): [Todo]
   }
