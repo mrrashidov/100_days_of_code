@@ -40,7 +40,7 @@ class Category {
 
   async update(_, { input }, context, root) {
     const category = await knex("categories").where({ id: input.id }).first();
-    console.log(category);
+
     if (!category) {
       throw new UserInputError("Category not found");
     }
