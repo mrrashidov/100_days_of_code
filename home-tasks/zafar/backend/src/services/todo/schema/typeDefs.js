@@ -40,18 +40,21 @@ module.exports = gql`
     type: Boolean
   }
   input CreateTodoInput {
+    userId: ID!
     name: String!
-    description: String
-    category_id: [ID!]
-    tag_id: [ID!]
+    description: String!
+    type: Boolean
     status: Status = "active"
+    tagId: [ID!]
+    categoryId: [ID!]
   }
   input UpdateTodoInput {
     id: ID!
     name: String
     description: String
-    category_id: [ID!]
-    tag_id: [ID!]
+    type: Boolean
+    category_id: [ID]
+    tag_id: [ID]
     status: Status
   }
   type MutationResponseMessage {
@@ -81,17 +84,23 @@ module.exports = gql`
 
   type Todo {
     id: ID
+    user: User
     name: String
+    description: String
+    type: Boolean
+    status: Status
     tag: [Tag]
     category: [Category]
+    createdAt: String
   }
+
   type Query {
     category(id: ID!): Category
     categories: [Category]
     tag(id: ID!): Tag
     tags: [Tag]
     todo(id: ID!): Todo
-    todos(id: ID): [Todo]
+    todos: [Todo]
   }
 
   type Mutation {
