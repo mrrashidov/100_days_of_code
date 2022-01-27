@@ -10,7 +10,7 @@ exports.up = function (knex) {
     table.string("name", 35).notNullable();
     table.string("description", 255).notNullable();
     table.boolean("type").defaultTo(false);
-    table.boolean("status").defaultTo(true);
+    table.string("status", 10).defaultTo("active");
     table.date("created_at").defaultTo(knex.fn.now());
   });
 };
