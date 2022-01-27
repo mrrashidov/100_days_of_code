@@ -43,7 +43,7 @@ module.exports = gql`
     userId: ID!
     name: String!
     description: String!
-    type: Boolean
+    type: Boolean = false
     status: Status = "active"
     tagId: [ID!]
     categoryId: [ID!]
@@ -53,8 +53,8 @@ module.exports = gql`
     name: String
     description: String
     type: Boolean
-    category_id: [ID]
-    tag_id: [ID]
+    categoryId: [ID]
+    tagId: [ID]
     status: Status
   }
   type MutationResponseMessage {
