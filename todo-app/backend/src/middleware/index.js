@@ -1,30 +1,10 @@
-const { ForbiddenError, AuthenticationError } = require("apollo-server-core");
-const { verify } = require("jsonwebtoken");
-const can =
-  (permission, modal = false) =>
-  (next) =>
-  (root, args, context, info) => {
-    console.log("args", args);
-    console.log("context", context);
-    // context.user = JSON.parse(
-    //   context.headers.user ? context.headers.user : null
-    // );
-    // context.permissions = JSON.parse(
-    //   context.headers.permissions ? context.headers.permissions : null
-    // );
+const config = require("../../knexfile");
+const Knex = require("knex");
+const { AuthenticationError } = require("apollo-server-core");
+const jwt = require("jsonwebtoken");
+const knex = Knex(config[process.env.NODE_ENV]);
 
-    // const access =
-    //   typeof permission === "string"
-    //     ? context.permissions.includes(permission)
-    //     : permission.some((r) => context.permissions.includes(r));
-
-    // if (!context.user) throw new AuthenticationError(`Unauthenticated!`);
-
-    // if (context.permissions && !access) throw new ForbiddenError(`Forbidden!`);
-    return modal ? access : next(root, args, context, info);
-  };
-
-const PUBLIC_ACTIONS = ["login", "register"];
+const PUBLIC_ACTIONS = ["login", "signup", "verification", "verify"];
 
 const actionIsPublic = ({ query }) =>
   PUBLIC_ACTIONS.some((action) => query.includes(action));
@@ -36,13 +16,31 @@ const shouldAuthenticate = (body) =>
   !isIntrospectionQuery(body) && !actionIsPublic(body);
 
 const context = async ({ req }) => {
-  if (
-    !!req.headers.authorization &&
-    req.headers?.authorization?.startsWith("Bearer ")
-  ) {
-    return req;
+  if (shouldAuthenticate(req.body)) {
+    const headers = req.headers;
+    if (!headers.authorization) throw new AuthenticationError("Unauthorized");
+    if (!headers.authorization.startsWith("Bearer "))
+      throw new AuthenticationError(
+        "Authorization header must be Bearer $token"
+      );
+    const token = headers.authorization.split("Bearer ")[1];
+    if (!!token.length) {
+      return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        console.log("jwt error", err);
+        //if (err) throw new AuthenticationError("Unauthorized");
+        return {
+          db: knex,
+          req: req,
+          user: decoded,
+        };
+      });
+    }
   }
-  throw new AuthenticationError(`Unauthenticated!`);
+
+  return {
+    db: knex,
+    req: req,
+  };
 };
 
 const formatError = (e) => {
@@ -61,5 +59,4 @@ const formatError = (e) => {
 module.exports = {
   context,
   formatError,
-  can,
 };
