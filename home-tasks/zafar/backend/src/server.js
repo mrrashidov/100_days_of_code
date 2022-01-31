@@ -1,5 +1,4 @@
 require("dotenv").config();
-const { makeExecutableSchema } = require("@graphql-tools/schema");
 const express = require("express"),
   http = require("http"),
   { ApolloServer } = require("apollo-server-express"),
@@ -21,10 +20,12 @@ async function startApolloServer(port) {
       message: "Cannot get",
     });
   });
+
   const httpServer = http.createServer(app);
   const server = new ApolloServer({
     introspection: true,
     schema,
+    context,
     plugins: [
       ApolloServerPluginCacheControlDisabled(),
       ApolloServerPluginInlineTraceDisabled(),
@@ -32,6 +33,7 @@ async function startApolloServer(port) {
       ApolloServerPluginDrainHttpServer({ httpServer }),
     ],
   });
+
   await server.start();
   server.applyMiddleware({ app });
   await new Promise((resolve) => httpServer.listen({ port }, resolve));

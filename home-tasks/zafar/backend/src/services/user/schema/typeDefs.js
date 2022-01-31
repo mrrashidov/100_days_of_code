@@ -5,7 +5,6 @@ module.exports = gql`
     last: String
     username: String
   }
-
   input UserUpdateInput {
     id: ID!
     email: String
@@ -14,14 +13,12 @@ module.exports = gql`
     name: UserNameUpdateInput
     status: Status
   }
-
   input UserPasswordUpdateInput {
     id: ID!
     password_old: String
     password_new: String
     password_confirmation: String
   }
-
   enum Status {
     active
     passive

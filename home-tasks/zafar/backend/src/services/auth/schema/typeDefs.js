@@ -8,6 +8,9 @@ module.exports = gql`
   input SignupInput {
     email: String # email can be unique
     phone: String # phone can be unique
+    username: String! # username can be unique
+    first_name: String
+    last_name: String
     password: String!
     password_confirmation: String!
   }
@@ -15,6 +18,9 @@ module.exports = gql`
     token: String!
     password: String!
     password_confirmation: String!
+  }
+  type User {
+    id: ID
   }
 
   enum Status {

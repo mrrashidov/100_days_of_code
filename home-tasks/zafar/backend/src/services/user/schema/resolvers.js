@@ -1,12 +1,12 @@
 const permission = require("../actions/permission"),
   role = require("../actions/role"),
   user = require("../actions/user"),
-  team = require("../actions/team");
-
+  { can } = require("../../../middleware");
 module.exports = {
   Query: {
-    permission: (parent, context, root, args) =>
-      permission.find(parent, context, root, args),
+    permission: can("any")((parent, context, root, args) =>
+      permission.find(parent, context, root, args)
+    ),
     permissions: (parent, context, root, args) =>
       permission.list(parent, context, root, args),
     role: (parent, context, root, args) =>
@@ -17,10 +17,6 @@ module.exports = {
       user.find(parent, context, root, args),
     users: (parent, context, root, args) =>
       user.list(parent, context, root, args),
-    team: (parent, context, root, args) =>
-      team.find(parent, context, root, args),
-    teams: (parent, context, root, args) =>
-      team.list(parent, context, root, args),
   },
   Mutation: {
     createPermission: (parent, context, root, args) =>
@@ -35,15 +31,5 @@ module.exports = {
       role.update(parent, context, root, args),
     deleteRole: (parent, context, root, args) =>
       role.delete(parent, context, root, args),
-    createTeam: (parent, context, root, args) =>
-      team.create(parent, context, root, args),
-    updateTeam: (parent, context, root, args) =>
-      team.update(parent, context, root, args),
-    deleteTeam: (parent, context, root, args) =>
-      team.delete(parent, context, root, args),
-    updateUser: (parent, context, root, args) =>
-      user.update(parent, context, root, args),
-    updateUserPassword: (parent, context, root, args) =>
-      user.updatePassword(parent, context, root, args),
   },
 };

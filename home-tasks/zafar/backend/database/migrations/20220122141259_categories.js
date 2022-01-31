@@ -1,6 +1,12 @@
 exports.up = function (knex) {
-  return knex.schema.createTable("roles", function (table) {
+  return knex.schema.createTable("categories", function (table) {
     table.increments("id");
+    table
+      .bigInteger("user_id")
+      .unsigned()
+      .notNullable()
+      .references("id")
+      .inTable("users");
     table.string("name", 35).notNullable();
     table.string("description", 255).notNullable();
     table.boolean("type").defaultTo(false);
@@ -9,4 +15,6 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = (knex) => knex.schema.dropTable("roles");
+exports.down = function (knex) {
+  return knex.schema.dropTable("categories");
+};
