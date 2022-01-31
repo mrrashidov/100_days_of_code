@@ -5,6 +5,41 @@ module.exports = gql`
     passive
     pending
   }
+
+  input CreatePermissionInput {
+    name: String!
+    description: String!
+  }
+
+  input UpdatePermissionInput {
+    id: ID!
+    name: String
+    description: String
+  }
+
+  input CreateRoleInput {
+    name: String!
+    description: String!
+    permissions: [ID!]!
+  }
+
+  input UpdateRoleInput {
+    id: ID!
+    name: String
+    description: String
+    permissions: [ID!]
+  }
+  input UpdateUserInput {
+    id: ID!
+    username: String
+    email: String
+    phone: String
+    first_name: String
+    last_name: String
+    avatar: String
+    status: Status
+  }
+
   type UserName {
     first: String
     last: String
@@ -33,7 +68,7 @@ module.exports = gql`
 
   type Query {
     user(id: ID!): User
-    users(id: ID!): [User]
+    users: [User]
     role(id: ID!): Role
     roles: [Role]
     permission(id: ID!): Permission
@@ -41,11 +76,13 @@ module.exports = gql`
   }
 
   type Mutation {
-    createRole(name: String): Boolean
-    updateRole(id: ID!): Boolean
+    createRole(input: CreateRoleInput!): Boolean
+    updateRole(input: UpdateRoleInput!): Boolean
     deleteRole(id: ID!): Boolean
-    createPermission(name: String): Boolean
-    updatePermission(id: ID!): Boolean
+    updateUser(input: UpdateUserInput!): Boolean
+    deleteUser(id: ID!): Boolean
+    createPermission(input: CreatePermissionInput!): Boolean
+    updatePermission(input: UpdatePermissionInput!): Boolean
     deletePermission(id: ID!): Boolean
   }
 `;

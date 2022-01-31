@@ -1,17 +1,13 @@
-const config = require("../../../../knexfile"),
-  { AuthenticationError } = require("apollo-server-core"),
-  Knex = require("knex"),
+const { AuthenticationError } = require("apollo-server-core"),
   jwt = require("jsonwebtoken"),
-  knex = Knex(config.development),
   { login, register } = require("../validators"),
   { validator } = require("../../../helpers");
 
 class User {
-  async login(_, { input }, context, root) {
+  async login(_, { input }, { db }, root) {
     const result = await validator(login, input);
-    console.log("result", result);
     if (result) {
-      const findUser = await knex("users")
+      const findUser = await db("users")
         .whereRaw(`email = ? AND password = crypt(?, password)`, [
           input.email,
           input.password,
@@ -22,7 +18,8 @@ class User {
         {
           id: findUser.id,
         },
-        "secret"
+        //process
+        process.env.JWT_SECRET
       );
       return {
         message: "Login successfully",
@@ -34,33 +31,40 @@ class User {
     }
   }
 
-  async signup(_, { input }, context, root) {
+  async signup(_, { input }, { db }, root) {
     const result = await validator(register, input);
     //TODO unique control email , phone and username
     if (result) {
       // new UserInputError('Email must be unique')
-      return knex
+      return db
         .insert({
           username: Date.now().toString(),
           email: result.email,
           phone: result.phone,
           first_name: result.first_name ? result.first_name.trim() : "No",
           last_name: result.last_name ? result.last_name.trim() : "Name",
-          password: knex.raw(`crypt(?,gen_salt('bf'))`, result.password),
+          password: db.raw(`crypt(?,gen_salt('bf'))`, result.password),
         })
         .into("users");
     }
   }
 
-  async verification(_, args, context, root) {
+  async verification(_, args, { db }, root) {
     return null;
   }
 
-  async verify(_, args, context, root) {
+  async verify(_, args, { db }, root) {
     return null;
   }
 
-  async user(_, args, context, root) {
+  async user(_, args, { db }, root) {
+    return null;
+  }
+  async forgot(_, args, { db }, root) {
+    return null;
+  }
+
+  async refresh(_, args, { db }, root) {
     return null;
   }
 }

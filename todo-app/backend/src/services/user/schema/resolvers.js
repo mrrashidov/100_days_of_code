@@ -1,8 +1,24 @@
 const permission = require("../actions/permission"),
   role = require("../actions/role"),
   user = require("../actions/user"),
-  { can } = require("../../../middleware");
+  { can } = require("../../../helpers"),
+  { status: ss, getKeyByValue } = require("../../../helpers/constants");
 module.exports = {
+  Role: {
+    id: ({ id }) => id,
+    name: ({ name }) => name,
+    description: ({ description }) => description,
+    status: ({ status }) => getKeyByValue(ss, status),
+  },
+  User: {
+    id: ({ id }, args, context) => id,
+    name: ({ username, first_name, last_name }, args, context) => ({
+      first: first_name,
+      last: last_name,
+      name: username,
+    }),
+    status: ({ status }, args, context) => getKeyByValue(ss, status),
+  },
   Query: {
     permission: can("any")((parent, context, root, args) =>
       permission.find(parent, context, root, args)
