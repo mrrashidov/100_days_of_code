@@ -22,6 +22,27 @@ module.exports = gql`
   type User {
     id: ID
   }
+
+  enum Status {
+    active
+    passive
+    pending
+  }
+  type UserName {
+    first: String!
+    last: String!
+    username: String!
+  }
+  type User {
+    id: ID!
+    email: String
+    phone: String
+    avatar: String
+    name: UserName!
+    status: Status
+    password: String!
+  }
+
   type AuthResponse {
     message: String
     token: String

@@ -25,7 +25,7 @@ async function startApolloServer(port) {
   const server = new ApolloServer({
     introspection: true,
     schema,
-    // context,
+    context,
     plugins: [
       ApolloServerPluginCacheControlDisabled(),
       ApolloServerPluginInlineTraceDisabled(),
@@ -33,6 +33,7 @@ async function startApolloServer(port) {
       ApolloServerPluginDrainHttpServer({ httpServer }),
     ],
   });
+
   await server.start();
   server.applyMiddleware({ app });
   await new Promise((resolve) => httpServer.listen({ port }, resolve));

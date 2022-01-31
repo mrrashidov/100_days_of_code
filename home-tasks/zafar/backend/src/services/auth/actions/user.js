@@ -9,6 +9,7 @@ const config = require("../../../../knexfile"),
 class User {
   async login(_, { input }, context, root) {
     const result = await validator(login, input);
+    console.log("result", result);
     if (result) {
       const findUser = await knex("users")
         .whereRaw(`email = ? AND password = crypt(?, password)`, [
