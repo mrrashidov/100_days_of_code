@@ -11,13 +11,13 @@ module.exports = {
     description: yup.string().required().max(50),
     userId: yup.string().matches(/^\d+$/).required(),
     type: yup.boolean(),
-    status: yup.boolean(),
+    status: yup.string().oneOf(["active", "passive", "pending"]),
   }),
   update: yup.object({
     id: yup.string().matches(/^\d+$/).required(),
     name: yup.string().min(3).max(20),
     description: yup.string().max(50),
     type: yup.boolean(),
-    status: yup.boolean(),
+    status: yup.string().oneOf(["active", "passive", "pending"]),
   }),
 };

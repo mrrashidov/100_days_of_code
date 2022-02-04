@@ -14,7 +14,9 @@ module.exports = gql`
 
   input CreateCategoryInput {
     name: String!
-    description: String
+    description: String!
+    userId: ID!
+    type: Boolean
     status: Status = "active"
   }
   input UpdateCategoryInput {
@@ -22,25 +24,31 @@ module.exports = gql`
     name: String
     description: String
     status: Status
+    type: Boolean
   }
   input CreateTagInput {
     name: String!
+    description: String!
+    userId: ID!
     color: TagColors = "red"
-    description: String
     status: Status = "active"
+    type: Boolean
   }
   input UpdateTagInput {
     id: ID!
     name: String
-    color: TagColors
     description: String
+    color: TagColors
     status: Status
+    type: Boolean
   }
   input CreateTodoInput {
     name: String!
-    description: String
+    user: ID!
+    description: String!
     category_id: [ID!]
     tag_id: [ID!]
+    type: Boolean
     status: Status = "active"
   }
   input UpdateTodoInput {
@@ -49,6 +57,7 @@ module.exports = gql`
     description: String
     category_id: [ID!]
     tag_id: [ID!]
+    type: Boolean
     status: Status
   }
   type MutationResponseMessage {
@@ -63,28 +72,40 @@ module.exports = gql`
     id: ID
     user: User
     name: String
+    description: String
+    type: Boolean
+    status: Status
+    # created_at: String
   }
 
   type Tag {
     id: ID
     user: User
     name: String
+    description: String
+    type: Boolean
     color: TagColors
+    status: Status
   }
 
   type Todo {
     id: ID
+    user: User
     name: String
+    description: String
     tag: [Tag]
     category: [Category]
+    type: Boolean
+    status: Status
   }
+
   type Query {
     category(id: ID!): Category
-    categories(id: ID): [Category]
+    categories: [Category]
     tag(id: ID!): Tag
-    tags(id: ID): [Tag]
+    tags: [Tag]
     todo(id: ID!): Todo
-    todos(id: ID): [Todo]
+    todos: [Todo]
   }
 
   type Mutation {
