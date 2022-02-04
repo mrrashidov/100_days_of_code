@@ -1,10 +1,11 @@
 const { find, create, update, destroy } = require("../validators/category");
-const { status } = require("../../../helpers/constants");
+const { status: ss, getKeyByValue } = require("../../../helpers/constants");
 const { validator } = require("../../../helpers");
 const { ApolloError } = require("apollo-server-core");
+
 class Category {
   async list(_, { input }, { db }, root) {
-    return db
+    const categories = await db
       .select(
         "categories.id",
         "categories.user_id",
@@ -22,10 +23,32 @@ class Category {
       )
       .from("categories")
       .whereNot({
-        "categories.status": status.passive,
+        "categories.status": ss.passive,
       })
       .innerJoin("users", { "users.id": "categories.user_id" })
       .returning("*");
+    console.log(categories[0]);
+    let data = categories.map((category) => ({
+      id: category.id,
+      name: category.name,
+      description: category.description,
+      type: category.type,
+      status: category.status,
+      user: {
+        id: category.user_id,
+        name: {
+          first: category.user_first_name,
+          last: category.user_last_name,
+          name: category.user_name,
+        },
+        email: category.user_email,
+        phone: category.user_phone,
+        avatar: category.user_avatar,
+        // status: getKeyByValue(ss, category.user_status),
+      },
+    }));
+    console.log(data);
+    return data;
   }
 
   async find(_, { id }, { db }, root) {
@@ -49,13 +72,32 @@ class Category {
         )
         .from("categories")
         .whereNot({
-          "categories.status": status.passive,
+          "categories.status": ss.passive,
         })
         .innerJoin("users", { "users.id": "categories.user_id" })
         .first();
       if (!findCategory)
         throw new ApolloError("Category not found", "NOT_FOUND");
-      return findCategory;
+      console.log(findCategory);
+      return {
+        id: findCategory.id,
+        name: findCategory.name,
+        description: findCategory.description,
+        type: findCategory.type,
+        status: findCategory.status,
+        user: {
+          id: findCategory.user_id,
+          name: {
+            first: findCategory.user_first_name,
+            last: findCategory.user_last_name,
+            name: findCategory.user_name,
+          },
+          email: findCategory.user_email,
+          phone: findCategory.user_phone,
+          avatar: findCategory.user_avatar,
+          status: findCategory.user_status,
+        },
+      };
     }
   }
 
@@ -69,7 +111,7 @@ class Category {
           description: result.description.trim(),
           user_id: result.userId,
           type: result.type,
-          status: status[result.status],
+          status: ss[result.status],
         })
         .returning("id");
       return {
@@ -97,9 +139,7 @@ class Category {
           description: result.description
             ? result.description.trim()
             : ifCategoryExists.description,
-          status: result.status
-            ? status[result.status]
-            : ifCategoryExists.status,
+          status: result.status ? ss[result.status] : ifCategoryExists.status,
           type: result.type ? result.type : ifCategoryExists.type,
         })
         .returning("id");
@@ -119,13 +159,13 @@ class Category {
     if (result) {
       const category = await db("categories")
         .where({ id })
-        .whereNot({ status: status.passive })
+        .whereNot({ status: ss.passive })
         .first();
       if (!category) {
         throw new Error("Category not found");
       }
       const delId = await db("categories")
-        .update({ status: status.passive })
+        .update({ status: ss.passive })
         .where({ id: result.id })
         .returning("id");
       return {
