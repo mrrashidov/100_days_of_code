@@ -4,7 +4,16 @@ const { AuthenticationError } = require("apollo-server-core");
 const jwt = require("jsonwebtoken");
 const knex = Knex(config[process.env.NODE_ENV]);
 
-const PUBLIC_ACTIONS = ["login", "signup", "verification", "verify"];
+const PUBLIC_ACTIONS = [
+  "login",
+  "signup",
+  "verification",
+  "verify",
+  "categories",
+  "category",
+  "updateCategory",
+  "deleteCategory",
+];
 
 const actionIsPublic = ({ query }) =>
   PUBLIC_ACTIONS.some((action) => query.includes(action));
